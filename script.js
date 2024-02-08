@@ -59,10 +59,14 @@ legend.onAdd = function (map) {
         grades = ["EOC Marker", "Fire Boundary", "Forest Fire"], // Labels for the legend
         labels = [];
 
-    // Adding a legend item with a color box for each grade
-    labels.push('<i style="background:#FF6666"></i> ' + grades[0]); // Color and label for EOC Marker
-    labels.push('<i style="border: 2px solid black;"></i> ' + grades[1]); // Style and label for Fire Boundary
-    labels.push('<i style="background:#D80000"></i> ' + grades[2]); // Color and label for Forest Fire
+    // Style for the legend items (e.g., larger text and symbols)
+    div.style.padding = '6px 8px';
+    div.style.font = '14px Arial, sans-serif';
+
+    // Add a legend item with a larger color box for each grade
+    labels.push('<i style="background:#FF6666; width: 18px; height: 18px; display: inline-block; margin-right: 5px;"></i> ' + grades[0]); // Color and label for EOC Marker
+    labels.push('<i style="border: 2px solid black; width: 18px; height: 18px; display: inline-block; margin-right: 5px;"></i> ' + grades[1]); // Style and label for Forest Fire
+    labels.push('<i style="background:#D80000; width: 18px; height: 18px; display: inline-block; margin-right: 5px;"></i> ' + grades[2]); // Color and label for Forest Fire
 
     div.innerHTML = labels.join('<br>');
     return div;
