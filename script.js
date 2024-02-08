@@ -56,12 +56,12 @@ var legend = L.control({position: 'bottomright'});
 
 legend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend'),
-        grades = ["EOC Marker", "Fire Boundary", "Forest Fire"], // Labels for the legend
+        grades = ["EOC Marker", "US State Boundary", "Forest Fire"], // Labels for the legend
         labels = [];
 
     // Style for the legend items (e.g., larger text and symbols)
     div.style.padding = '6px 8px';
-    div.style.font = '14px Arial, sans-serif';
+    div.style.font = '20px Arial, sans-serif';
 
     // Add a legend item with a larger color box for each grade
     labels.push('<i style="background:#FF6666; width: 18px; height: 18px; display: inline-block; margin-right: 5px;"></i> ' + grades[0]); // Color and label for EOC Marker
