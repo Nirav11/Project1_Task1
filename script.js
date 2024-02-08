@@ -31,7 +31,7 @@ fetch('https://services1.arcgis.com/Hp6G80Pky0om7QvQ/arcgis/rest/services/Local_
 
 // Adding an Esri Feature Layer
 L.esri.featureLayer({
-    url: 'https://services2.arcgis.com/bB9Y1bGKerz1PTl5/arcgis/rest/services/Forest_Fire/FeatureServer',
+    url: 'https://services2.arcgis.com/bB9Y1bGKerz1PTl5/arcgis/rest/services/Forest_Fire/FeatureServer/0',
     onEachFeature: function(feature, layer) {
         if (feature.properties && feature.properties.FireName) {
             var popupContent = `<b>Fire Name:</b> ${feature.properties.FireName}<br>` +
