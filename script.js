@@ -7,13 +7,14 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 var markers = L.markerClusterGroup();
 
+// Fetching data for markers
 fetch('https://services1.arcgis.com/Hp6G80Pky0om7QvQ/arcgis/rest/services/Local_Emergency_Operations_Centers_EOC/FeatureServer/0/query?where=1=1&outFields=*&f=geojson')
 .then(response => response.json())
 .then(data => {
     data.features.forEach(feature => {
         var latlng = L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
         var popupContent = `<b>Name:</b> ${feature.properties.NAME}<br><b>Address:</b> ${feature.properties.ADDRESS}<br><b>Telephone:</b> ${feature.properties.TELEPHONE}`;
-        
+
         var marker = L.circleMarker(latlng, {
             radius: 6,
             fillColor: "#FF6666",
@@ -22,12 +23,13 @@ fetch('https://services1.arcgis.com/Hp6G80Pky0om7QvQ/arcgis/rest/services/Local_
             opacity: 1,
             fillOpacity: 0.8
         }).bindPopup(popupContent);
-        
+
         markers.addLayer(marker);
     });
     map.addLayer(markers);
 });
 
+// Adding an Esri Feature Layer
 L.esri.featureLayer({
     url: 'https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/MTBS_Polygons_v1/FeatureServer/0',
     onEachFeature: function(feature, layer) {
@@ -40,6 +42,7 @@ L.esri.featureLayer({
     }
 }).addTo(map);
 
+// Fetching and adding GeoJSON data for boundaries
 fetch('https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Boundaries_2022/FeatureServer/1/query?where=1=1&outFields=*&f=geojson')
 .then(response => response.json())
 .then(data => {
@@ -48,3 +51,4 @@ fetch('https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Bou
             return {fill: false, color: 'black', weight: 2, opacity: 1};
         }
     }).addTo(map);
+});
