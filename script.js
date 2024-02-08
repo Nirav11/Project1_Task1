@@ -7,7 +7,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 var markers = L.markerClusterGroup();
 
-// Fetching data for markers
+// Fetching data for markers for the Emergency Response Centre
 fetch('https://services1.arcgis.com/Hp6G80Pky0om7QvQ/arcgis/rest/services/Local_Emergency_Operations_Centers_EOC/FeatureServer/0/query?where=1=1&outFields=*&f=geojson')
 .then(response => response.json())
 .then(data => {
@@ -29,7 +29,7 @@ fetch('https://services1.arcgis.com/Hp6G80Pky0om7QvQ/arcgis/rest/services/Local_
     map.addLayer(markers);
 });
 
-// Adding an Esri Feature Layer
+// Adding an Forest Fire Esri Feature Layer
 L.esri.featureLayer({
     url: 'https://services2.arcgis.com/bB9Y1bGKerz1PTl5/arcgis/rest/services/Forest_Fire/FeatureServer/0',
     onEachFeature: function(feature, layer) {
@@ -51,4 +51,23 @@ fetch('https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Bou
             return {fill: false, color: 'black', weight: 2, opacity: 1};
         }
     }).addTo(map);
+
+var legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = ["EOC Marker", "Fire Boundary", "Forest Fire"], // Labels for the legend
+        labels = [];
+
+    // Adding a legend item with a color box for each grade
+    labels.push('<i style="background:#FF6666"></i> ' + grades[0]); // Color and label for EOC Marker
+    labels.push('<i style="border: 2px solid black;"></i> ' + grades[1]); // Style and label for Fire Boundary
+    labels.push('<i style="background:#D80000"></i> ' + grades[2]); // Color and label for Forest Fire
+
+    div.innerHTML = labels.join('<br>');
+    return div;
+};
+
+legend.addTo(map);
+
 });
