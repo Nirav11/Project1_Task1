@@ -5,7 +5,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
 }).addTo(map);
 
-var markers = L.markerClusterGroup().addTo(map);
+var markers = L.markerClusterGroup();
 
 fetch('https://services1.arcgis.com/Hp6G80Pky0om7QvQ/arcgis/rest/services/Local_Emergency_Operations_Centers_EOC/FeatureServer/0/query?where=1=1&outFields=*&f=geojson')
 .then(response => response.json())
@@ -25,10 +25,19 @@ fetch('https://services1.arcgis.com/Hp6G80Pky0om7QvQ/arcgis/rest/services/Local_
         
         markers.addLayer(marker);
     });
+    map.addLayer(markers);
 });
 
 L.esri.featureLayer({
-    url: 'https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/MTBS_Polygons_v1/FeatureServer/0'
+    url: 'https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/MTBS_Polygons_v1/FeatureServer/0',
+    onEachFeature: function(feature, layer) {
+        if (feature.properties && feature.properties.FireName) {
+            var popupContent = `<b>Fire Name:</b> ${feature.properties.FireName}<br>` +
+                               `<b>Fire Type:</b> ${feature.properties.FireType}<br>` +
+                               `<b>Acres Burned:</b> ${feature.properties.Acres}`;
+            layer.bindPopup(popupContent);
+        }
+    }
 }).addTo(map);
 
 fetch('https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Boundaries_2022/FeatureServer/1/query?where=1=1&outFields=*&f=geojson')
@@ -39,4 +48,3 @@ fetch('https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_Bou
             return {fill: false, color: 'black', weight: 2, opacity: 1};
         }
     }).addTo(map);
-});
